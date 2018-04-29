@@ -131,6 +131,7 @@ Methods to report back failures
 * **setGithubRepo($githubRepo):**  Sets the owner/repo combination of the Github repository.
 * **setGithubPR($githubPR):**  Sets the number of the Github Pull Request.
 * **setUploadedImagesURLs($uploadedImagesURLs):** When not using Cloudinary, allows setting up the array of image URLs to be appended to the comment in the PR.
+* **setDriverLog($driverLog):** Sets the driver log to be sent to the reporting system.
 * **setTapLog($tapLog):** Sets the tap log to be sent to the reporting system.
 * **setBuildURL($buildURL):** Sets the URL of the build system with the full test log
 * **setSlackWebhook($slackWebhook):** Sets the webhook to report back to Slack.
@@ -158,6 +159,7 @@ $this->taskReporting()
         '/path/to/image',
         '/path/to/image'
     [)
+    ->setDriverLog('<Driver log>')
     ->setTapLog('<Tap log>')
 
     ->publishCloudinaryImages()

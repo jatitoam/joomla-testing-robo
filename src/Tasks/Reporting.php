@@ -10,7 +10,9 @@
 namespace Joomla\Testing\Robo\Tasks;
 
 use Cloudinary\Uploader;
+use Github\Api\Issue;
 use Github\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class for reporting tests results
@@ -104,7 +106,16 @@ final class Reporting extends GenericTask
 	private $folderImagesToUpload = '';
 
 	/**
-	 * Tap log to report
+	 * Driver log to report
+	 *
+	 * @var     string
+	 *
+	 * @since   1.0.0
+	 */
+	private $driverLog = '';
+
+	/**
+	 * Codeception tap log to report
 	 *
 	 * @var     string
 	 *
@@ -286,12 +297,10 @@ final class Reporting extends GenericTask
 	/**
 	 * Sets the comment body to include into Github
 	 *
-	 * @param   string  $tapLog  Tap log to report back
+	 * @param   string  $tapLog  Codeception tap log to report back
 	 *
-	 * @return  $this
-	 *
-	 * @since   1.0.0
-	 *
+	 * @return      $this
+	 * @since       1.0.0
 	 * @deprecated  Use setTapLog instead
 	 */
 	public function setGithubCommentBody($tapLog)
@@ -302,9 +311,9 @@ final class Reporting extends GenericTask
 	}
 
 	/**
-	 * Sets the tap log to report back
+	 * Sets the codeception tap log to report back
 	 *
-	 * @param   string  $tapLog  Tap log to report back
+	 * @param   string  $tapLog  Codeception tap log to report back
 	 *
 	 * @return  $this
 	 *
@@ -313,6 +322,22 @@ final class Reporting extends GenericTask
 	public function setTapLog($tapLog)
 	{
 		$this->tapLog = $tapLog;
+
+		return $this;
+	}
+
+	/**
+	 * Sets the driver log to report back
+	 *
+	 * @param   string  $driverLog  Driver log to report back
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0.0
+	 */
+	public function setDriverLog($driverLog)
+	{
+		$this->driverLog = $driverLog;
 
 		return $this;
 	}
@@ -524,14 +549,26 @@ final class Reporting extends GenericTask
 			return false;
 		}
 
-		if (empty($this->tapLog))
+		if (empty($this->driverLog) && empty($this->tapLog))
 		{
-			$this->printTaskError('Tap error was not provided');
+			$this->printTaskError('No error logs were provided (driver / tap)');
 
 			return false;
 		}
 
-		$commentBody = $this->tapLog;
+		$commentBody = '';
+
+		if (!empty($this->driverLog))
+		{
+			$commentBody .= '*Driver log:*' . chr(10) . chr(10);
+			$commentBody .= $this->driverLog;
+		}
+
+		if (!empty($this->tapLog))
+		{
+			$commentBody .= '*Codeception tap log:*' . chr(10) . chr(10);
+			$commentBody .= $this->tapLog;
+		}
 
 		// If an image URL exists, it's attached to the comment body
 		if (!empty($this->uploadedImagesURLs))
@@ -543,15 +580,17 @@ final class Reporting extends GenericTask
 		}
 
 		$repositoryOwner = $repoMatches[1];
-		$repositoryName = $repoMatches[2];
+		$repositoryName  = $repoMatches[2];
 
 		try
 		{
 			$github = new Client;
 			$github->authenticate($this->githubToken, Client::AUTH_HTTP_TOKEN);
-			$github
-				->api('issue')
-				->comments()->create(
+
+			/** @var Issue $issueAPI */
+			$issueAPI = $github->api('issue');
+			$issueAPI->comments()
+				->create(
 					$repositoryOwner, $repositoryName, $this->githubPR,
 					array(
 						'body'  => $commentBody
@@ -569,7 +608,7 @@ final class Reporting extends GenericTask
 	}
 
 	/**
-	 * Sends the build report to Slack, using the tap log and images
+	 * Sends the build report to Slack, using the provided logs and images
 	 *
 	 * @return  boolean
 	 *
@@ -589,9 +628,9 @@ final class Reporting extends GenericTask
 			return false;
 		}
 
-		if (empty($this->tapLog))
+		if (empty($this->driverLog) && empty($this->tapLog))
 		{
-			$this->printTaskError('Tap error was not provided');
+			$this->printTaskError('No error logs were provided (driver / tap)');
 
 			return false;
 		}
@@ -603,11 +642,11 @@ final class Reporting extends GenericTask
 			return false;
 		}
 
-		$repositoryName = $repoMatches[2];
+		$repositoryName     = $repoMatches[2];
 		$reportedRepository = 'https://github.com/' . $this->githubRepo;
-		$reportedPR = $reportedRepository . '/pull/' . $this->githubPR;
-		$reportedImage = '';
-		$reportedError = 'Automated testing error in ' . $repositoryName . ' - Pull Request #' . $this->githubPR;
+		$reportedPR         = $reportedRepository . '/pull/' . $this->githubPR;
+		$reportedImage      = '';
+		$reportedError      = 'Automated testing error in ' . $repositoryName . ' - Pull Request #' . $this->githubPR;
 
 		if (!empty($this->uploadedImagesURLs))
 		{
@@ -630,13 +669,25 @@ final class Reporting extends GenericTask
 					array(
 						'title' => 'Pull Request',
 						'value' => $reportedPR
-					),
-					array(
-						'title' => 'Codeception tap log',
-						'value' => $this->tapLog
 					)
 				)
 			);
+
+			if (!empty($this->driverLog))
+			{
+				$attachment['fields'][] = array(
+					'title' => 'Driver log',
+					'value' => $this->driverLog
+				);
+			}
+
+			if (!empty($this->tapLog))
+			{
+				$attachment['fields'][] = array(
+					'title' => 'Codeception tap log',
+					'value' => $this->tapLog
+				);
+			}
 
 			if (!empty($this->buildURL))
 			{
@@ -664,9 +715,15 @@ final class Reporting extends GenericTask
 				)
 			);
 		}
-		catch (\Exception $e)
+		catch (\Exception $exception)
 		{
-			$this->printTaskError('Slack build report could not be done due to an error: ' . $e->getMessage());
+			$this->printTaskError('Slack build report could not be done due to an error: ' . $exception->getMessage());
+
+			return false;
+		}
+		catch (GuzzleException $exception)
+		{
+			$this->printTaskError('Slack build report could not be done due to an error: ' . $exception->getMessage());
 
 			return false;
 		}
@@ -690,10 +747,11 @@ final class Reporting extends GenericTask
 			return false;
 		}
 
-		$images = array();
+		$images  = array();
 		$handler = opendir($folder);
+		$file    = readdir($handler);
 
-		while (false !== ($file = readdir($handler)))
+		while (false !== $file)
 		{
 			// Avoid sending system files or html files
 			if (!(in_array(pathinfo($file, PATHINFO_EXTENSION), array('jpg', 'png'))))
@@ -702,6 +760,7 @@ final class Reporting extends GenericTask
 			}
 
 			$images[] = $folder . '/' . $file;
+			$file     = readdir($handler);
 		}
 
 		return $images;
