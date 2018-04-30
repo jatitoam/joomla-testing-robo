@@ -124,6 +124,15 @@ final class Reporting extends GenericTask
 	private $tapLog = '';
 
 	/**
+	 * Published codeception report page
+	 *
+	 * @var     string
+	 *
+	 * @since   1.0.0
+	 */
+	private $reportPath = '';
+
+	/**
 	 * Uploaded images (URL)
 	 *
 	 * @var     array
@@ -322,6 +331,22 @@ final class Reporting extends GenericTask
 	public function setTapLog($tapLog)
 	{
 		$this->tapLog = $tapLog;
+
+		return $this;
+	}
+
+	/**
+	 * Sets the codeception report path
+	 *
+	 * @param   string  $reportPath  Codeception report path
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0.0
+	 */
+	public function setReportPath($reportPath)
+	{
+		$this->reportPath = $reportPath;
 
 		return $this;
 	}
@@ -672,6 +697,14 @@ final class Reporting extends GenericTask
 					)
 				)
 			);
+
+			if (!empty($this->reportPath))
+			{
+				$attachment['fields'][] = array(
+					'title' => 'Codeception report URL',
+					'value' => $this->reportPath
+				);
+			}
 
 			if (!empty($this->driverLog))
 			{
