@@ -15,7 +15,7 @@
     }
   },
   "require": {
-    "php"                             : ">=5.4.0",
+    "php"                             : ">=7.1.0",
     "consolidation/robo"              : "~1",
     "squizlabs/php_codesniffer"       : "~2",
     "cloudinary/cloudinary_php"       : "~1",
