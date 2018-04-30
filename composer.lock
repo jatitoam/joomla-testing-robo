@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d72b0decf0f64210631fc46b83bfe8da",
+    "content-hash": "4be30738f956202ace4fe272c5b68edc",
     "packages": [
         {
             "name": "cloudinary/cloudinary_php",
@@ -1613,7 +1613,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.0"
+        "php": ">=5.3.10"
     },
     "platform-dev": []
 }
