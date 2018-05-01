@@ -15,18 +15,18 @@
     }
   },
   "require": {
-    "php"                             : ">=5.3.10",
-    "consolidation/robo"              : "~0.7|~1",
+    "php"                             : ">=5.5.0",
+    "consolidation/robo"              : "~1",
     "squizlabs/php_codesniffer"       : "~2",
     "cloudinary/cloudinary_php"       : "~1",
     "knplabs/github-api"              : "~1",
-    "guzzlehttp/guzzle"               : "~5|~6",
+    "guzzlehttp/guzzle"               : "~6",
     "joomla-projects/joomla-testing"  : "dev-container-test",
-    "symfony/console"                 : "~2|~3|~4",
-    "symfony/filesystem"              : "~2|~3|~4",
-    "symfony/finder"                  : "~2|~3|~4",
-    "symfony/process"                 : "~2|~3|~4",
-    "symfony/yaml"                    : "~2|~3|~4"
+    "symfony/console"                 : "~3|~4",
+    "symfony/filesystem"              : "~3|~4",
+    "symfony/finder"                  : "~3|~4",
+    "symfony/process"                 : "~3|~4",
+    "symfony/yaml"                    : "~3|~4"
   },
   "replace": {
     "joomla-projects/robo"            : "< 1.0"
