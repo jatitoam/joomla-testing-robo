@@ -38,9 +38,8 @@ matrix:
     - php: nightly
 
 before_script:
-  - composer update
-  - if [ $COMPOSER_UPDATE == "true" ]; then composer update; else composer install --prefer-dist --no-progress --no-interaction; fi
   - composer self-update
+  - if [ $COMPOSER_UPDATE == "true" ]; then composer update; else composer install --prefer-dist --no-progress --no-interaction; fi
 
 script:
   - vendor/bin/robo check:codestyle
