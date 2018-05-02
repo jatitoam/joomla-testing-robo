@@ -22,7 +22,6 @@
     "knplabs/github-api"              : "~2",
     "guzzlehttp/guzzle"               : "~6",
     "php-http/guzzle6-adapter"        : "~1",
-    "joomla-projects/joomla-testing"  : "dev-container-test",
     "symfony/console"                 : "~3|~4",
     "symfony/filesystem"              : "~3|~4",
     "symfony/finder"                  : "~3|~4",

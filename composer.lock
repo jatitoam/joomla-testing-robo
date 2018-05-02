@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "75933b6d7278353f226f2c4018fd0f23",
+    "content-hash": "663f4dfcae111fc7ea4c09575257ab48",
     "packages": [
         {
             "name": "cloudinary/cloudinary_php",
@@ -764,57 +764,6 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
-        },
-        {
-            "name": "joomla-projects/joomla-testing",
-            "version": "dev-container-test",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-projects/joomla-testing.git",
-                "reference": "705c7aeed75c181f3b7ad15a7af419173c867923"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-testing/zipball/705c7aeed75c181f3b7ad15a7af419173c867923",
-                "reference": "705c7aeed75c181f3b7ad15a7af419173c867923",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "consolidation/robo": "~1",
-                "joomla-projects/joomla-testing-robo": "dev-container-test",
-                "joomla-projects/virtualisation": "dev-container-test",
-                "symfony/process": "~3",
-                "symfony/yaml": "^3.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Testing\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Tito Alvarez",
-                    "email": "tito.alvarez@community.joomla.org"
-                }
-            ],
-            "description": "Joomla automated testing scripts with container capabilities",
-            "keywords": [
-                "containers",
-                "docker",
-                "qa",
-                "robo",
-                "task",
-                "tests"
-            ],
-            "time": "2017-08-24 14:09:45"
         },
         {
             "name": "knplabs/github-api",
@@ -1971,16 +1920,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
+                "reference": "3296adf6a6454a050679cde90f95350ad604b171"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
-                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/3296adf6a6454a050679cde90f95350ad604b171",
+                "reference": "3296adf6a6454a050679cde90f95350ad604b171",
                 "shasum": ""
             },
             "require": {
@@ -1992,7 +1941,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.8-dev"
                 }
             },
             "autoload": {
@@ -2026,7 +1975,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-01-30T19:27:44+00:00"
+            "time": "2018-04-26T10:06:28+00:00"
         },
         {
             "name": "symfony/process",
@@ -2139,9 +2088,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "joomla-projects/joomla-testing": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
