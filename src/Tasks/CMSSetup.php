@@ -702,6 +702,8 @@ final class CMSSetup extends GenericTask
 	 * @return  boolean
 	 *
 	 * @since   1.0.0
+	 *
+	 * @throws  \Exception
 	 */
 	private function copyCMS($source, $destination, $excludedFolders)
 	{
@@ -709,7 +711,7 @@ final class CMSSetup extends GenericTask
 
 		if (false === $dir)
 		{
-			throw new Exception($this, "Cannot open Joomla source directory");
+			throw new \Exception($this, "Cannot open Joomla source directory");
 		}
 
 		if (!is_dir($destination))
