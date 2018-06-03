@@ -9,6 +9,7 @@
 
 namespace Joomla\Testing\Robo\Tasks;
 
+use Robo\Exception\TaskException;
 use Robo\Task\Testing\Codecept;
 
 /**
@@ -26,9 +27,9 @@ final class CodeceptBuild extends Codecept
 	 *
 	 * @param   string  $pathToCodeception  Path to codeception, optional
 	 *
-	 * @throws \Robo\Exception\TaskException
-	 *
 	 * @since   1.0.0
+	 *
+	 * @throws  TaskException
 	 */
 	public function __construct($pathToCodeception = '')
 	{
